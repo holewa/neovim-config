@@ -277,6 +277,7 @@ require("lazy").setup({
       vim.keymap.set("n", "<leader>a", mark.add_file)
       vim.keymap.set("n", "<C-e>", ui.toggle_quick_menu)
       vim.keymap.set("n", "<TAB>", ui.nav_next)
+      vim.keymap.set("n", "<TAB>", ui.nav_prev)
 
       vim.keymap.set("n", "<C-s>", function() ui.nav_file(4) end)
     end
@@ -287,6 +288,10 @@ require("lazy").setup({
 --consolelog
 vim.keymap.set("n", "<leader>icl", "iconsole.log('')<ESC>hi")
 vim.keymap.set("n", "<leader>icn", "oconsole.log('')<ESC>hi")
+
+--save
+vim.keymap.set("n", "<C-s>", ":w<CR>")
+vim.keymap.set("n", "<C-H>", ":q<CR>")
 
 -- Enable the following language servers
 local servers = {

@@ -41,7 +41,7 @@ require("lazy").setup({
       vim.keymap.set("n", "<leader>gp", ":Git push<CR>")
       vim.keymap.set("n", "<leader>gb", ":Git branch<CR>")
       vim.keymap.set("n", "<leader>gl", ":Git log<CR>")
-      vim.keymap.set("n", "<leader>gd", ":Git diff<CR>")
+      --vim.keymap.set("n", "<leader>gd", ":Git diff<CR>")
       vim.keymap.set("n", "<leader>g?", ":h fugitive<CR>", { desc = "Git help" })
       vim.keymap.set("n", "<leader>gx", ":Git stash<CR>", { desc = "Git stash" })
     end
@@ -585,6 +585,7 @@ local on_attach = function(_, bufnr)
   nmap("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 
   nmap("gd", require("telescope.builtin").lsp_definitions, "[G]oto [D]efinition")
+  nmap("gt", require("telescope.builtin").lsp_type_definitions, "[G]oto [T]ype [D]efinition")
   nmap("gr", require("telescope.builtin").lsp_references, "[G]oto [R]eferences")
   nmap("gI", require("telescope.builtin").lsp_implementations, "[G]oto [I]mplementation")
   nmap("<leader>D", require("telescope.builtin").lsp_type_definitions, "Type [D]efinition")

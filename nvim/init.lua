@@ -1,43 +1,3 @@
---[[
-
-=====================================================================
-==================== READ THIS BEFORE CONTINUING ====================
-=====================================================================
-
-Kickstart.nvim is *not* a distribution.
-
-Kickstart.nvim is a template for your own configuration.
-  The goal is that you can read every line of code, top-to-bottom, understand
-  what your configuration is doing, and modify it to suit your needs.
-
-  Once you've done that, you should start exploring, configuring and tinkering to
-  explore Neovim!
-
-  If you don't know anything about Lua, I recommend taking some time to read through
-  a guide. One possible example:
-  - https://learnxinyminutes.com/docs/lua/
-
-
-  And then you can explore or search through `:help lua-guide`
-  - https://neovim.io/doc/user/lua-guide.html
-
-
-Kickstart Guide:
-
-I have left several `:help X` comments throughout the init.lua
-You should run that command and read that help section for more information.
-
-In addition, I have some `NOTE:` items throughout the file.
-These are for you, the reader to help understand what is happening. Feel free to delete
-them once you know what you're doing, but they should serve as a guide for when you
-are first encountering a few different constructs in your nvim config.
-
-I hope you enjoy your Neovim journey,
-- TJ
-
-P.S. You can delete this when you're done too. It's your config now :)
---]]
-
 -- Set <space> as the leader key
 -- See `:help mapleader`
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
@@ -71,8 +31,17 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
   -- NOTE: First, some plugins that don't require any configuration
 
-  -- Git related plugins
-  "tpope/vim-fugitive",
+  {
+    -- Git related plugins
+    "tpope/vim-fugitive",
+    config = function()
+      vim.keymap.set("n", "<leader>g?", ":h fugitive<CR>")
+      vim.keymap.set("n", "<leader>gb", ":Git blame<CR>")
+      vim.keymap.set("n", "<leader>gs", ":Git<CR>")
+      vim.keymap.set("n", "<leader>gc", ":Git commit<CR>")
+      vim.keymap.set("n", "<leader>gp", ":Git push<CR>")
+    end
+  },
   "tpope/vim-rhubarb",
 
   -- Detect tabstop and shiftwidth automatically
@@ -188,8 +157,6 @@ require("lazy").setup({
 
         -- Text object
         map({ "o", "x" }, "ih", ":<C-U>Gitsigns select_hunk<CR>", { desc = "select git hunk" })
-        --Git blame
-        map("n", "<leader>gb", ":Git blame<CR>")
       end,
     },
   },
@@ -318,7 +285,8 @@ require("lazy").setup({
 
 
 --consolelog
-vim.keymap.set("n", "<leader>cl", "iconsole.log('')<ESC>hi")
+vim.keymap.set("n", "<leader>icl", "iconsole.log('')<ESC>hi")
+vim.keymap.set("n", "<leader>icn", "oconsole.log('')<ESC>hi")
 
 -- Enable the following language servers
 local servers = {
@@ -496,6 +464,9 @@ vim.keymap.set("n", "<leader>sG", ":LiveGrepGitRoot<cr>", { desc = "[S]earch by 
 vim.keymap.set("n", "<leader>sd", require("telescope.builtin").diagnostics, { desc = "[S]earch [D]iagnostics" })
 vim.keymap.set("n", "<leader>sr", require("telescope.builtin").resume, { desc = "[S]earch [R]esume" })
 
+vim.keymap.set("n", "<leader>pv", ":Ex<CR>")
+vim.keymap.set("n", "<leader>pv", ":Ex<CR>")
+
 -- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
 -- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
@@ -639,6 +610,7 @@ require("which-key").register({
   ["<leader>s"] = { name = "[S]earch", _ = "which_key_ignore" },
   ["<leader>t"] = { name = "[T]oggle", _ = "which_key_ignore" },
   ["<leader>w"] = { name = "[W]orkspace", _ = "which_key_ignore" },
+  ["<leader>I"] = { name = "[I]orkspace", _ = "which_key_ignore" },
 })
 -- register which-key VISUAL mode
 -- required for visual <leader>hs (hunk stage) to work

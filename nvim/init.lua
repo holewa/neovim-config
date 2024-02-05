@@ -35,11 +35,15 @@ require("lazy").setup({
     -- Git related plugins
     "tpope/vim-fugitive",
     config = function()
-      vim.keymap.set("n", "<leader>g?", ":h fugitive<CR>")
       vim.keymap.set("n", "<leader>gb", ":Git blame<CR>")
-      vim.keymap.set("n", "<leader>gs", ":Git<CR>")
+      vim.keymap.set("n", "<leader>gs", ":Git<CR>", { desc = "Git status" })
       vim.keymap.set("n", "<leader>gc", ":Git commit<CR>")
       vim.keymap.set("n", "<leader>gp", ":Git push<CR>")
+      vim.keymap.set("n", "<leader>gb", ":Git branch<CR>")
+      vim.keymap.set("n", "<leader>gl", ":Git log<CR>")
+      vim.keymap.set("n", "<leader>gd", ":Git diff<CR>")
+      vim.keymap.set("n", "<leader>g?", ":h fugitive<CR>", { desc = "Git help" })
+      vim.keymap.set("n", "<leader>gx", ":Git stash<CR>", { desc = "Git stash" })
     end
   },
   "tpope/vim-rhubarb",

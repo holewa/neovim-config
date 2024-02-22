@@ -3,6 +3,9 @@
 --  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
+vim.keymap.set("v", "p", '"_dP')
+vim.keymap.set("n", "<C-d", "<C-d>zz")
+vim.keymap.set("n", "<C-u", "<C-u>zz")
 
 vim.wo.number = true
 vim.wo.relativenumber = true
@@ -30,7 +33,53 @@ vim.opt.rtp:prepend(lazypath)
 --    as they will be available in your neovim runtime.
 require("lazy").setup({
   -- NOTE: First, some plugins that don't require any configuration
+  --{
+  --  "mfussenegger/nvim-jdtls"
+  --},
+  {
+    'nvim-java/nvim-java',
+    dependencies = {
+      'nvim-java/lua-async-await',
+      'nvim-java/nvim-java-core',
+      'nvim-java/nvim-java-test',
+      'nvim-java/nvim-java-dap',
+      'MunifTanjim/nui.nvim',
+      'neovim/nvim-lspconfig',
+      'mfussenegger/nvim-dap',
+      {
+        'williamboman/mason.nvim',
+        opts = {
+          registries = {
+            'github:nvim-java/mason-registry',
+            'github:mason-org/mason-registry',
+          },
+        },
+      }
+    },
+  },
+  {
+    "Everduin94/nvim-quick-switcher",
+    config = function()
 
+      local function find(file_regex)
+        return function() require('nvim-quick-switcher').find(file_regex, {}) end
+      end
+
+      vim.api.nvim_create_autocmd({ 'UIEnter' }, {
+        callback = function(event)
+          local is_angular = next(vim.fs.find({ "angular.json", "nx.json" }, { upward = true }))
+
+          -- Angular
+          if is_angular then
+            print('Angular')
+            vim.keymap.set("n", "<leader>oh", find('.component.html'), {desc = "html-file"})
+            vim.keymap.set("n", "<leader>ot", find('.component.ts'), {desc = "ts-file"})
+            vim.keymap.set("n", "<leader>oc", find('.component.scss'), {desc = "css-file"})
+          end
+        end
+      })
+    end
+  },
   {
     -- Git related plugins
     "tpope/vim-fugitive",
@@ -193,20 +242,20 @@ require("lazy").setup({
           section_separators = "",
         },
         sections = {
-          lualine_a = {'mode'},
+          lualine_a = { 'mode' },
           lualine_b = {},
           lualine_c = {
             {
               'filename',
-              path = 1}
+              path = 1 }
           },
           lualine_x = {
             'branch',
             --'diff',
             --'diagnostics'
           },
-          lualine_y = {'progress'},
-          lualine_z = {'location'}
+          lualine_y = { 'progress' },
+          lualine_z = { 'location' }
         }
       }
     end,
@@ -273,7 +322,8 @@ require("lazy").setup({
   -- { import = 'custom.plugins' },
 
   --harpon
-  {"ThePrimeagen/harpoon",
+  {
+    "ThePrimeagen/harpoon",
     config = function()
       local mark = require("harpoon.mark")
       local ui = require("harpoon.ui")
@@ -306,6 +356,9 @@ local servers = {
 -- Setup neovim lua configuration
 require("neodev").setup()
 
+require("java").setup()
+
+require("lspconfig").jdtls.setup({})
 -- ... (existing configurations)
 
 -- Ensure the servers above are installed

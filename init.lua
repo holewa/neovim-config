@@ -36,6 +36,9 @@ require("lazy").setup({
   --{
   --  "mfussenegger/nvim-jdtls"
   --},
+
+  require 'kickstart.plugins.nvim-tree',
+
   {
     'nvim-java/nvim-java',
     dependencies = {
